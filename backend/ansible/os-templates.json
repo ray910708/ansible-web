@@ -1,0 +1,90 @@
+{
+  "osCategories": [
+    {
+      "id": "ubuntu",
+      "name": "Ubuntu",
+      "icon": "ubuntu",
+      "color": "#E95420",
+      "packageManager": "apt",
+      "versions": ["20.04", "22.04", "24.04"],
+      "family": "debian"
+    },
+    {
+      "id": "debian",
+      "name": "Debian",
+      "icon": "debian", 
+      "color": "#A81D33",
+      "packageManager": "apt",
+      "versions": ["10", "11", "12"],
+      "family": "debian"
+    },
+    {
+      "id": "centos",
+      "name": "CentOS",
+      "icon": "centos",
+      "color": "#932279",
+      "packageManager": "yum",
+      "versions": ["7", "8", "9"],
+      "family": "rhel"
+    },
+    {
+      "id": "rhel",
+      "name": "Red Hat Enterprise Linux",
+      "icon": "redhat",
+      "color": "#EE0000",
+      "packageManager": "yum",
+      "versions": ["7", "8", "9"],
+      "family": "rhel"
+    },
+    {
+      "id": "windows",
+      "name": "Windows Server",
+      "icon": "windows",
+      "color": "#0078D4",
+      "packageManager": "chocolatey",
+      "versions": ["2019", "2022"],
+      "family": "windows"
+    },
+    {
+      "id": "generic",
+      "name": "通用腳本",
+      "icon": "server",
+      "color": "#6B7280",
+      "packageManager": "generic",
+      "versions": ["any"],
+      "family": "unix"
+    }
+  ],
+  "scriptCategories": [
+    {
+      "id": "system",
+      "name": "系統管理",
+      "description": "系統資訊、用戶管理、權限設定等"
+    },
+    {
+      "id": "software",
+      "name": "軟體安裝",
+      "description": "應用程式安裝、配置和管理"
+    },
+    {
+      "id": "security",
+      "name": "安全配置",
+      "description": "防火牆、SSH、證書等安全相關配置"
+    },
+    {
+      "id": "monitoring",
+      "name": "監控與日誌",
+      "description": "系統監控、日誌收集和分析"
+    },
+    {
+      "id": "backup",
+      "name": "備份與恢復",
+      "description": "數據備份、系統恢復相關腳本"
+    },
+    {
+      "id": "network",
+      "name": "網路配置",
+      "description": "網路設定、防火牆、代理配置等"
+    }
+  ]
+}

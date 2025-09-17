@@ -1,0 +1,11 @@
+- name: '321'
+  hosts: all
+  become: true
+  gather_facts: true
+  vars: {}
+  tasks:
+    - name: tr
+      script: ../scripts/nginx-安裝與配置.sh
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a

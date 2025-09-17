@@ -1,0 +1,32 @@
+# Variables specific to web servers
+---
+# Web server configuration
+web_server: nginx
+web_port: 80
+ssl_port: 443
+
+# Application settings
+app_name: "web-app"
+app_port: 3000
+app_user: "webapp"
+
+# Nginx configuration
+nginx_worker_processes: auto
+nginx_worker_connections: 1024
+nginx_keepalive_timeout: 65
+
+# SSL configuration
+ssl_enabled: false
+ssl_cert_path: "/etc/ssl/certs"
+ssl_key_path: "/etc/ssl/private"
+
+# Document root
+document_root: "/var/www/html"
+
+# PHP configuration (if needed)
+php_enabled: false
+php_version: "8.1"
+
+# Load balancer upstream
+upstream_servers:
+  - "127.0.0.1:3000"

@@ -1,0 +1,225 @@
+
+> ansible-web-backend@2.0.0 start
+> node server.js
+
+WebSocket server started on port 8080
+🔗 WebSocket server started on port 8080
+✅ Ansible Web Platform API server running on http://0.0.0.0:3001
+📁 Ansible config directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible
+📋 Inventory file: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini
+📚 Playbooks directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks
+📜 Scripts directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/scripts
+📊 Logs directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/logs
+Received playbook data: {
+  "name": "test-debug",
+  "config": {
+    "name": "調試測試",
+    "hosts": [
+      "all"
+    ],
+    "tasks": [
+      {
+        "name": "測試任務",
+        "script": "test-script.sh"
+      }
+    ],
+    "vars": {}
+  }
+}
+Processed playbook data: {
+  "name": "test-debug",
+  "description": "調試測試",
+  "hosts": [
+    "all"
+  ],
+  "tasks": [
+    {
+      "name": "測試任務",
+      "script": "test-script.sh"
+    }
+  ],
+  "vars": {},
+  "become": true
+}
+PlaybookService validation: {
+  name: true,
+  hosts: true,
+  tasks: true,
+  tasksLength: 1,
+  playbookData: {
+    name: 'test-debug',
+    description: '調試測試',
+    hosts: [ 'all' ],
+    tasks: [ [Object] ],
+    vars: {},
+    become: true
+  }
+}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/test-debug.yml
+Received playbook data: {
+  "name": "123",
+  "config": {
+    "name": "123",
+    "hosts": [
+      "all"
+    ],
+    "become": true,
+    "gather_facts": true,
+    "vars": {},
+    "tasks": [
+      {
+        "name": "123",
+        "script": "系統日誌分析.py",
+        "when": "",
+        "notify": ""
+      }
+    ]
+  }
+}
+Processed playbook data: {
+  "name": "123",
+  "description": "123",
+  "hosts": [
+    "all"
+  ],
+  "tasks": [
+    {
+      "name": "123",
+      "script": "系統日誌分析.py",
+      "when": "",
+      "notify": ""
+    }
+  ],
+  "vars": {},
+  "become": true
+}
+PlaybookService validation: {
+  name: true,
+  hosts: true,
+  tasks: true,
+  tasksLength: 1,
+  playbookData: {
+    name: '123',
+    description: '123',
+    hosts: [ 'all' ],
+    tasks: [ [Object] ],
+    vars: {},
+    become: true
+  }
+}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/test-playbook.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/123.yml
+Received playbook data: {
+  "name": "321",
+  "config": {
+    "name": "321",
+    "hosts": [
+      "all"
+    ],
+    "become": true,
+    "gather_facts": true,
+    "vars": {},
+    "tasks": [
+      {
+        "name": "tr",
+        "script": "nginx-安裝與配置.sh",
+        "when": "",
+        "notify": ""
+      }
+    ]
+  }
+}
+Processed playbook data: {
+  "name": "321",
+  "description": "321",
+  "hosts": [
+    "all"
+  ],
+  "tasks": [
+    {
+      "name": "tr",
+      "script": "nginx-安裝與配置.sh",
+      "when": "",
+      "notify": ""
+    }
+  ],
+  "vars": {},
+  "become": true
+}
+PlaybookService validation: {
+  name: true,
+  hosts: true,
+  tasks: true,
+  tasksLength: 1,
+  playbookData: {
+    name: '321',
+    description: '321',
+    hosts: [ 'all' ],
+    tasks: [ [Object] ],
+    vars: {},
+    become: true
+  }
+}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/123.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/test-debug.yml
+Received playbook data: {
+  "name": "321",
+  "config": {
+    "name": "321",
+    "hosts": [
+      "all"
+    ],
+    "become": true,
+    "gather_facts": true,
+    "vars": {},
+    "tasks": [
+      {
+        "name": "tr",
+        "script": "nginx-安裝與配置.sh",
+        "when": "",
+        "notify": ""
+      }
+    ]
+  }
+}
+Processed playbook data: {
+  "name": "321",
+  "description": "321",
+  "hosts": [
+    "all"
+  ],
+  "tasks": [
+    {
+      "name": "tr",
+      "script": "nginx-安裝與配置.sh",
+      "when": "",
+      "notify": ""
+    }
+  ],
+  "vars": {},
+  "become": true
+}
+PlaybookService validation: {
+  name: true,
+  hosts: true,
+  tasks: true,
+  tasksLength: 1,
+  playbookData: {
+    name: '321',
+    description: '321',
+    hosts: [ 'all' ],
+    tasks: [ [Object] ],
+    vars: {},
+    become: true
+  }
+}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml --extra-vars {"ansible_python_interpreter":"auto_silent","DEBIAN_FRONTEND":"noninteractive","NEEDRESTART_MODE":"a"}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml --extra-vars {"ansible_python_interpreter":"auto_silent","DEBIAN_FRONTEND":"noninteractive","NEEDRESTART_MODE":"a"}
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml
+Executing command: ansible-playbook -i /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks/321.yml --extra-vars {"ansible_python_interpreter":"auto_silent","DEBIAN_FRONTEND":"noninteractive","NEEDRESTART_MODE":"a"}
+🛑 SIGTERM received, shutting down gracefully...
+WebSocket server stopped

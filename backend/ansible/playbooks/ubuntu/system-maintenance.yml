@@ -1,0 +1,124 @@
+---
+- name: Ubuntu 系統維護 Playbook
+  hosts: all
+  become: true
+  gather_facts: true
+  
+  vars:
+    # 可自定義的變數
+    auto_reboot: false
+    cleanup_logs: true
+    update_packages: true
+    
+  pre_tasks:
+    - name: 驗證是 Ubuntu 系統
+      fail:
+        msg: "此 Playbook 僅適用於 Ubuntu 系統"
+      when: ansible_distribution != "Ubuntu"
+    
+    - name: 顯示系統資訊
+      debug:
+        msg: "正在維護 Ubuntu {{ ansible_distribution_version }} 系統: {{ ansible_hostname }}"
+
+  tasks:
+    - name: 更新 APT 套件清單
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: update_packages
+
+    - name: 升級所有套件
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      register: upgrade_result
+      when: update_packages
+
+    - name: 顯示升級結果
+      debug:
+        msg: "套件升級完成，{{ upgrade_result.changed | default(0) }} 個套件已更新"
+      when: upgrade_result is defined
+
+    - name: 檢查是否需要重啟
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: 顯示重啟提示
+      debug:
+        msg: "系統需要重啟以完成更新"
+      when: reboot_required.stat.exists
+
+    - name: 清理系統日誌（超過30天）
+      find:
+        paths: /var/log
+        age: 30d
+        recurse: yes
+        file_type: file
+      register: old_logs
+      when: cleanup_logs
+
+    - name: 刪除舊日誌文件
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_logs.files }}"
+      when: cleanup_logs and old_logs.files is defined
+
+    - name: 清理 APT 緩存
+      apt:
+        autoclean: yes
+        autoremove: yes
+
+    - name: 檢查磁碟空間
+      shell: df -h /
+      register: disk_space
+      changed_when: false
+
+    - name: 顯示磁碟空間資訊
+      debug:
+        msg: "根分區磁碟使用情況: {{ disk_space.stdout_lines[1] }}"
+
+    - name: 檢查系統服務狀態
+      systemd:
+        name: "{{ item }}"
+      register: service_status
+      with_items:
+        - ssh
+        - systemd-resolved
+        - cron
+      failed_when: false
+
+    - name: 顯示服務狀態
+      debug:
+        msg: "服務 {{ item.item }} 狀態: {{ 'Active' if item.status.ActiveState == 'active' else 'Inactive' }}"
+      with_items: "{{ service_status.results }}"
+
+    - name: 更新系統時間
+      systemd:
+        name: systemd-timesyncd
+        state: started
+        enabled: yes
+
+  post_tasks:
+    - name: 記錄維護完成時間
+      lineinfile:
+        path: /var/log/system-maintenance.log
+        line: "系統維護完成時間: {{ ansible_date_time.iso8601 }}"
+        create: yes
+      
+    - name: 自動重啟（如果啟用）
+      reboot:
+        msg: "系統維護完成，自動重啟中..."
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+      when: auto_reboot and reboot_required.stat.exists
+
+  handlers:
+    - name: restart ssh
+      systemd:
+        name: ssh
+        state: restarted

@@ -1,0 +1,8 @@
+- name: '123'
+  hosts: all
+  become: true
+  gather_facts: true
+  vars: {}
+  tasks:
+    - name: '123'
+      script: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/scripts/系統日誌分析.py

@@ -1,0 +1,8 @@
+- name: 系統資訊檢查
+  hosts: all
+  become: true
+  gather_facts: true
+  vars: {}
+  tasks:
+    - name: 檢查系統資訊
+      script: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/scripts/system-info.sh

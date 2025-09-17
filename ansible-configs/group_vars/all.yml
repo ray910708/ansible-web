@@ -1,0 +1,30 @@
+# Global variables for all hosts
+---
+# SSH Configuration
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+# Package management
+package_manager_update_cache: true
+
+# Timezone
+timezone: 'Asia/Taipei'
+
+# Common packages to install on all hosts
+common_packages:
+  - curl
+  - wget
+  - vim
+  - htop
+  - git
+  - unzip
+
+# Security settings
+disable_root_login: true
+ssh_port: 22
+
+# Log settings
+log_level: 'info'
+
+# Backup settings
+backup_enabled: true
+backup_retention_days: 30

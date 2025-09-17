@@ -1,0 +1,20 @@
+啟動 Ansible Web Platform 後端服務...
+環境設定:
+- 環境: development
+- 埠號: 3001
+- JWT 密鑰: 已設定
+正在啟動 Express API 服務器...
+
+> ansible-web-backend@2.0.0 start
+> node server.js
+
+WebSocket server started on port 8080
+🔗 WebSocket server started on port 8080
+✅ Ansible Web Platform API server running on http://0.0.0.0:3001
+📁 Ansible config directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible
+📋 Inventory file: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/inventory/hosts.ini
+📚 Playbooks directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/playbooks
+📜 Scripts directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/scripts
+📊 Logs directory: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/logs
+🛑 SIGTERM received, shutting down gracefully...
+WebSocket server stopped

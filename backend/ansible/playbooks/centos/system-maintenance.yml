@@ -1,0 +1,161 @@
+---
+- name: CentOS/RHEL 系統維護 Playbook
+  hosts: all
+  become: true
+  gather_facts: true
+  
+  vars:
+    # 可自定義的變數
+    auto_reboot: false
+    cleanup_logs: true
+    update_packages: true
+    
+  pre_tasks:
+    - name: 驗證是 CentOS/RHEL 系統
+      fail:
+        msg: "此 Playbook 僅適用於 CentOS 或 RHEL 系統"
+      when: ansible_os_family != "RedHat"
+    
+    - name: 顯示系統資訊
+      debug:
+        msg: "正在維護 {{ ansible_distribution }} {{ ansible_distribution_version }} 系統: {{ ansible_hostname }}"
+
+    - name: 檢測包管理器
+      set_fact:
+        pkg_mgr: "{{ 'dnf' if ansible_distribution_major_version|int >= 8 else 'yum' }}"
+
+  tasks:
+    - name: 更新所有套件 (YUM)
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+      register: yum_upgrade_result
+      when: update_packages and pkg_mgr == "yum"
+
+    - name: 更新所有套件 (DNF)
+      dnf:
+        name: '*'
+        state: latest
+        update_cache: yes
+      register: dnf_upgrade_result
+      when: update_packages and pkg_mgr == "dnf"
+
+    - name: 顯示升級結果
+      debug:
+        msg: "套件升級完成，已使用 {{ pkg_mgr }} 更新系統"
+      when: update_packages
+
+    - name: 清理套件緩存 (YUM)
+      command: yum clean all
+      when: pkg_mgr == "yum"
+
+    - name: 清理套件緩存 (DNF)  
+      command: dnf clean all
+      when: pkg_mgr == "dnf"
+
+    - name: 移除孤立的套件 (YUM)
+      yum:
+        autoremove: yes
+      when: pkg_mgr == "yum"
+
+    - name: 移除孤立的套件 (DNF)
+      dnf:
+        autoremove: yes
+      when: pkg_mgr == "dnf"
+
+    - name: 檢查是否需要重啟
+      command: needs-restarting -r
+      register: reboot_required
+      failed_when: false
+      changed_when: reboot_required.rc != 0
+
+    - name: 顯示重啟狀態
+      debug:
+        msg: "{{ '系統需要重啟以完成更新' if reboot_required.rc != 0 else '系統無需重啟' }}"
+
+    - name: 清理系統日誌（超過30天）
+      find:
+        paths: /var/log
+        age: 30d
+        recurse: yes
+        file_type: file
+      register: old_logs
+      when: cleanup_logs
+
+    - name: 刪除舊日誌文件
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_logs.files }}"
+      when: cleanup_logs and old_logs.files is defined
+
+    - name: 清理 systemd journal 日誌
+      command: journalctl --vacuum-time=30d
+      when: cleanup_logs
+
+    - name: 檢查磁碟空間
+      shell: df -h /
+      register: disk_space
+      changed_when: false
+
+    - name: 顯示磁碟空間資訊
+      debug:
+        msg: "根分區磁碟使用情況: {{ disk_space.stdout_lines[1] }}"
+
+    - name: 檢查系統服務狀態
+      systemd:
+        name: "{{ item }}"
+      register: service_status
+      with_items:
+        - sshd
+        - chronyd
+        - crond
+      failed_when: false
+
+    - name: 顯示服務狀態
+      debug:
+        msg: "服務 {{ item.item }} 狀態: {{ 'Active' if item.status.ActiveState == 'active' else 'Inactive' }}"
+      with_items: "{{ service_status.results }}"
+
+    - name: 確保時間同步服務運行
+      systemd:
+        name: chronyd
+        state: started
+        enabled: yes
+
+    - name: 檢查 SELinux 狀態
+      command: getenforce
+      register: selinux_status
+      changed_when: false
+
+    - name: 顯示 SELinux 狀態
+      debug:
+        msg: "SELinux 狀態: {{ selinux_status.stdout }}"
+
+    - name: 更新 locate 數據庫
+      command: updatedb
+      async: 300
+      poll: 0
+
+  post_tasks:
+    - name: 記錄維護完成時間
+      lineinfile:
+        path: /var/log/system-maintenance.log
+        line: "系統維護完成時間: {{ ansible_date_time.iso8601 }}"
+        create: yes
+      
+    - name: 自動重啟（如果啟用）
+      reboot:
+        msg: "系統維護完成，自動重啟中..."
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+      when: auto_reboot and reboot_required.rc != 0
+
+  handlers:
+    - name: restart sshd
+      systemd:
+        name: sshd
+        state: restarted

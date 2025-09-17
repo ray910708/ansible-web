@@ -1,0 +1,8 @@
+- name: 調試測試
+  hosts: all
+  become: true
+  gather_facts: true
+  vars: {}
+  tasks:
+    - name: 測試任務
+      script: /Users/rayzang/Downloads/Ansible-web/ansible-web-platform/backend/ansible/scripts/test-script.sh

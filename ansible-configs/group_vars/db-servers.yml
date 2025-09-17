@@ -1,0 +1,31 @@
+# Variables specific to database servers
+---
+# Database configuration
+db_type: "mysql"
+db_port: 3306
+db_root_password: "{{ vault_db_root_password | default('changeme') }}"
+
+# MySQL specific settings
+mysql_bind_address: "127.0.0.1"
+mysql_max_connections: 200
+mysql_innodb_buffer_pool_size: "256M"
+
+# Database backup settings
+db_backup_enabled: true
+db_backup_time: "02:00"
+db_backup_retention: 7
+
+# Data directory
+db_data_dir: "/var/lib/mysql"
+
+# Log settings
+db_slow_query_log: true
+db_log_queries_not_using_indexes: true
+
+# Security settings
+db_allow_remote_root: false
+
+# Replication settings (for master-slave setup)
+replication_enabled: false
+replication_role: "master"  # master or slave
+master_host: ""
